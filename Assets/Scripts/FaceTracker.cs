@@ -13,12 +13,23 @@ public class FaceTracker : MonoBehaviour
     private  RenderTexture renderTex;
     private CascadeClassifier cascade;
 
+    public enum THETA_DEVICE_TYPE
+    {
+        RICOH_THETA_V_FullHD,
+        RICOH_THETA_V_4K,
+        RICOH_THETA_S
+    }
+
+    [SerializeField] private THETA_DEVICE_TYPE deviceType;
+
     void Start ()
     {
+        var deviceName = deviceType.ToString().Replace('_', ' ');
+
         WebCamDevice[] devices = WebCamTexture.devices;
         for (var i = 0; i < devices.Length; i++)
         {
-            if (devices[i].name == "RICOH THETA V FullHD")
+            if (devices[i].name == deviceName)
             {
                 Debug.Log(devices[i].name + " detected");
                 WebCamTexture webCamTexture = new WebCamTexture(devices[i].name);
